@@ -31,11 +31,11 @@ Here in our project, we are challenged to predict internal failures with thousan
 ### Code Files
 To view our detailed codes, you are welcome to click following titles.
 
-* [Step 1 - Exploratory Data Analysis](https://github.com/jiaruxu233/Big-Data-Project/blob/master/Code/Step_1_Exploratory_Data_Analysis.ipynb)
+* [Step 1 - Exploratory Data Analysis](https://nbviewer.jupyter.org/github/jiaruxu233/Big-Data-Project/blob/master/Code/Step_1_Exploratory_Data_Analysis.ipynb)
 
-* [Step 2 - Feature Selection and Engineering](https://github.com/jiaruxu233/Big-Data-Project/blob/master/Code/Step_2_Feature_Engineering.ipynb)
+* [Step 2 - Feature Selection and Engineering](https://nbviewer.jupyter.org/githubjiaruxu233/Big-Data-Project/blob/master/Code/Step_2_Feature_Engineering.ipynb)
 
-* [Step 3 - Modeling and Evaluation](https://github.com/jiaruxu233/Big-Data-Project/blob/master/Code/Step_3_Modeling.ipynb)
+* [Step 3 - Modeling and Evaluation](https://nbviewer.jupyter.org/githubjiaruxu233/Big-Data-Project/blob/master/Code/Step_3_Modeling.ipynb)
 
 ### Dataset we use
 
