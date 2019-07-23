@@ -1,72 +1,94 @@
-# Big Data Project
+# DNSC 6278 Project -- [Bosch Production Line Performance](https://www.kaggle.com/c/bosch-production-line-performance/overview) 
 
 **Group Members:** Qianying Diao, Jiaru Xu, Xinrong Chen, Shirley Zhang
 
-## Bosch Production Line Performance
+## Project Introduction
+
 ### Summary
 
-For our project, we focus on performance prediction for Bosch production line. In this case, the dataset is extremely imbalanced and with thousands of features. At the data preparation stage, we oversampled the data by SMOTE and did feature engineering. Then we utilized Spark SQL and XGBoost to analyze data. We tried four different binary classification models: random forest model, logistic regression model, gradient boosted tree classifier and XGBoost. Finally, we use Matthews correlation coefficient (MCC) to evaluate the model. 
+For our project, we focus on performance prediction for **[Bosch production line](https://www.kaggle.com/c/bosch-production-line-performance/overview)**. Our dataset is extremely imbalanced with thousands of features. At data preparation stage, we oversampled the data by SMOTE and did feature engineering. Then we use **Spark SQL, Spark Dataframe, Spark Machine Learning API** and XGBoost to analyze data. We tried four different binary classification models: random forest model, logistic regression model and gradient boosted tree classifier. For evaluation, we use **Matthews Correlation Coefficient** (MCC) to evaluate the model. 
 
-### Introduction
-
-Bosch, one of the world's leading manufacturing companies, has an imperative to ensure that the recipes for the production of its advanced mechanical components are of the highest quality and safety standards. Part of doing so is closely monitoring its parts as they progress through the manufacturing processes. Because Bosch records data at every step along its assembly lines, they have the ability to apply advanced analytics to improve these manufacturing processes. In this project, we are challenged to predict internal failures using thousands of measurements and tests made for each component along the assembly line. This would enable Bosch to bring quality products at lower costs to the end user.
-
-![](BoschManufacturingKaggleImage.jpg)
-
-### Data Description
-
-The data represents measurements of parts as they move through Bosch's production lines. Each part has a unique Id. The goal is to predict which parts will fail quality control (represented by a 'Response' = 1). The dataset contains an extremely large number of anonymized features and the files are separated by the type of feature they contain: numerical, categorical, and date features. Features are named according to a convention that tells you the production line, the station on the line, and a feature number. 
+![bosch icon](https://github.com/jiaruxu233/Big-Data-Project/blob/master/Pics/cover.jpg)
 
 
-### Files
+### Background and Introduction
 
-**train_numeric.csv** - the training set numeric features (this file contains the 'Response' variable)
+Bosch is one of the world's leading manufacturing companies. In its daily routine, one significant task is to ensure that all recipes for the production of its advanced mechanical components are of superior quality and safety standards. 
 
-**train_categorical.csv** - the training set categorical features
+In detail, company needs to closely monitor production  parts as they progress through the manufacturing processes recording data at stepwise along its assembly lines and apply advanced analytics to improve these manufacturing processes. 
 
-**train_date.csv** - the training set date features
+Here in our project, we are challenged to predict internal failures with thousands of measurements made for each component along the production line. With our project, we hope it will help Bosch to bring quality products at lower costs to end users.
+
+
+### Tools we use
+* Loading Data with **Amazon S3 bucket**
+* Exploratory Analysis: **Spark SQL, Spark Dataframe**
+* Feature Selection and Engineering: **Spark SQL, Spark Dataframe**, UDF in Pandas, visualization with matplotlib
+* Modeling: **Spark ML (Logistic Regression, Random Forest, Gradient Boosted Tree)**
 
 ### Code Files
 
-**Step_1_Exploratory_Data_Analysis.ipynb**
+* [Step 1 - Exploratory Data Analysis](https://github.com/jiaruxu233/Big-Data-Project/blob/master/Code/Step_1_Exploratory_Data_Analysis.ipynb)
 
-**Step_2_Feature_Engineering.ipynb**
+* [Step 2 - Feature Selection and Engineering](https://github.com/jiaruxu233/Big-Data-Project/blob/master/Code/Step_2_Feature_Engineering.ipynb)
 
-**Step_3_Modeling.ipynb**
+* [Step 3 - Modeling and Evaluation](https://github.com/jiaruxu233/Big-Data-Project/blob/master/Code/Step_3_Modeling.ipynb)
+
+### Dataset we use
+
+* train_numeric.csv- the training set numeric features (this file contains the 'Response' variable)
+* train_categorical.csv - the training set categorical features
+* train_date.csv - the training set date features
+
+### Challenges 
+
+Two major challenges in our project is first too many missing values and second highly imbalanced target. 	When we try to build a model with Spark ML, missing values in our dataframe will cause some error. Therefore, we need to find a way to solve it. After consideration, we set an additional parameter `handleInvalid` in both StringIndexer and VectorAssembler to handle with those missing values.
+
+In addition, through our struggle with Spark, we also notice that although Spark   does a fantastic job with large datasets, it does not have a strong vidualization function. Therefore, when we prefer to have a look at how our dataset, we adopt the matplotlib package. Before plotting the dataset, we need to transform our Spark dataframe into a pandas dataframe. However, such transformation seems to take forever. Without parallel processing in Spark, it takes more than triple the time that Spark needs in order to read data into pandas dataframe.  
+
+Also, in our initial trail, we download data from Kaggle, then upload unzipped data files onto a S3 bucket and finally read data from our S3 bucket. What we realize afterwards is that we could directly download data to our S3 bucket from Kaggle website which proves to take a shorter time.
+
 
 ## Methods
 * How you cleaned, prepared the dataset with samples of intermediate data?
 
-We prepared the dataset by oversampling method SMOTE. Meanwhile, as for numeric features, we did feature engineering by generating features for each station according to maximum and minimum values. As for categorical features, we pick columns with largest variance. As for date features, we dropped duplicate columns.
+We prepared the dataset by oversampling method SMOTE. Meanwhile,for numeric features, we generate features for each station according to maximum and minimum values. For categorical features, we pick columns with largest variance. For date features, we drop duplicate columns.
 
 * Tools you used for analyzing the dataset and the justification (tools, models, etc.)
 
-We use Spark SQL and XGBoost to analyze the dataset. Since we are dealing with more than 1,000,000 rows and 1,000 to 2,000 columns per file, Spark SQL runs faster with such huge amount of data. Because there are thousands of features, we use XGBoost to select features according to their feature importance.
+According to our previous introduction, when reading data, we use **Amazon S3** service. When doing the detailed analysis, we use  **Spark SQL, Spark Dataframe**, UDF in Pandas and visualizing with matplotlib. Last for modeling, we adopt **Spark ML API (Logistic Regression, Random Forest, Gradient Boosted Tree)**.
 
 * How did you model the dataset, what techniques did you use and why?
 
-We run random forest model, logistic regression model and gradient boosted tree classifier on Spark and run XGBoost locally. We choose these models because thay can do binary classification which is exactly what we need. 
+We run **random forest model, logistic regression model and gradient boosted tree classifier** with Spark Machine Learning API. We choose these models because on one hand they do binary classification, on another hand, they will help predict labels in our splited test dataset.  
 
 * Did you have a hypothesis that you were trying to prove? 
 
-No.
+We suppose that different stations will have a different impact on production failure rate. Through our exploration, we find that station 32 has the highest failure rate followed by station 38 and 24. Therefore, we guess that station 32 might be a R&D position which will go through a lot of experiments with relatively high possibility of failure.
 
 * Did you just visualize the dataset, and if so, why?
 
-We looked at the schema to see the feature names and feature types. We calculated the error rate at different stations to get some insights. Since all the features are anonymized, there is no need for us to do other visualization.
+We looked at the schema to see the feature names and feature types. We visualize failure rate at different stations to achieve some insights and how missing value distributed among three datesets. 
 
-## Results:
+## Results
 * What did you find and learn?
 
-First, the data is extremely imbalanced and we find this imbalance problem will influence the accuracy of model prediction. Since standard classification algorithms usually consider a balanced training set and this supposes a bias towards the majority class. In this project, we realized that imbalance is a problem we should deal with before we start modeling. 
-Second, because of the large amount of features, we learned how to do feature engineering.
-Third, at the start of modeling part, we naturally believe random forest will be the best model since it suits for a lot of dataset. However, surprisingly, it turned out that random forest predicted bad with our dataset. We learn from the experience that there is no best model for one dataset but only suitable model.
+First, the data is extremely imbalanced and we find this imbalance problem will influence the accuracy of model prediction especially if we adopt traditional evaluation criteria such as accuracy. Since standard classification algorithms usually consider a balanced training set and this supposes a bias towards the majority class. In this project, we realized that imbalance is a problem we should deal with before we actually start modeling. 
+
+Second, because of the large amount of features, we need to find, select and extract those that are indeed valuable.
+
+Third, through our struggle with Spark, we realize that Spark is extremely great at handling large dataset especially compared with pandas. When we try to read and transform our whole dataset with pandas, it seems never end. Although it does not have a strong function over visualization, it speeds up the process when we are confronted with "Big Data" which is increasingly popular in recent days.
 
 * How did you validate your results?
 
-We use Matthews correlation coefficient (MCC) to evaluate the model performance because the prediction classification is imbalanced.
+We adopt Matthews correlation coefficient (MCC) to evaluate the model performance because the prediction classification is imbalanced.
+
 ## Future work: 
 * What would you do differently and what follow-up work would you do?
 
 What we would do differently is that we would open a cluster with larger instances before manipulating the dataset and modeling since we spent most of our time on waiting the results of model training. 
-We would use alternative methods to deal with imbalanced, sparse data and we would do model tuning.
+
+Besides, we would use alternative methods to deal with imbalanced, sparse data and do model tuning.
+
+
+### Hope you enjoy our work! Thanks! :)
