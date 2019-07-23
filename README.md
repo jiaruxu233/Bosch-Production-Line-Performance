@@ -2,6 +2,8 @@
 
 **Group Members:** Qianying Diao, Jiaru Xu, Xinrong Chen, Shirley Zhang
 
+![Kaggle icon](https://github.com/jiaruxu233/Big-Data-Project/blob/master/Pics/1563903920326.jpg)
+
 ## Project Introduction
 
 ### Summary
@@ -27,6 +29,7 @@ Here in our project, we are challenged to predict internal failures with thousan
 * Modeling: **Spark ML (Logistic Regression, Random Forest, Gradient Boosted Tree)**
 
 ### Code Files
+To view our detailed codes, you are welcome to click following titles.
 
 * [Step 1 - Exploratory Data Analysis](https://github.com/jiaruxu233/Big-Data-Project/blob/master/Code/Step_1_Exploratory_Data_Analysis.ipynb)
 
@@ -83,7 +86,7 @@ Third, through our struggle with Spark, we realize that Spark is extremely great
 
 We adopt Matthews correlation coefficient (MCC) to evaluate the model performance because the prediction classification is imbalanced.
 
-## Future work: 
+## Future work 
 * What would you do differently and what follow-up work would you do?
 
 What we would do differently is that we would open a cluster with larger instances before manipulating the dataset and modeling since we spent most of our time on waiting the results of model training. 
